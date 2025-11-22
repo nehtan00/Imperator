@@ -3,12 +3,23 @@ import { GoogleGenAI } from "@google/genai";
 // Handle both Vite (import.meta.env) and standard Node/Web environments (process.env)
 // This ensures the code works in your local editor and on the hosted GitHub site.
 const getApiKey = () => {
-  // @ts-ignore - Vite types might not be present in all environments
+  // Check for Vite environment variable
+  // @ts-ignore
   if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY) {
     // @ts-ignore
     return import.meta.env.VITE_API_KEY;
   }
-  return process.env.API_KEY || '';
+
+  // Safely check for process.env (avoids ReferenceError in browser if process is undefined)
+  try {
+    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+      return process.env.API_KEY;
+    }
+  } catch (e) {
+    // Ignore error if process is not defined
+  }
+
+  return '';
 };
 
 const ai = new GoogleGenAI({ apiKey: getApiKey() });
