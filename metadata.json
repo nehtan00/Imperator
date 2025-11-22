@@ -1,0 +1,5 @@
+{
+  "name": "Gemini 95: Space Trouble",
+  "description": "A retro-themed multiplayer board game powered by Gemini. Players race their pieces around the board, using special abilities and trying to get all their pieces home first. Features AI-generated pilot avatars for a personalized touch.",
+  "requestFramePermissions": []
+}
