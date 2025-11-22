@@ -1,7 +1,17 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Ensure the API key is available from environment variables
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+// Handle both Vite (import.meta.env) and standard Node/Web environments (process.env)
+// This ensures the code works in your local editor and on the hosted GitHub site.
+const getApiKey = () => {
+  // @ts-ignore - Vite types might not be present in all environments
+  if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY) {
+    // @ts-ignore
+    return import.meta.env.VITE_API_KEY;
+  }
+  return process.env.API_KEY || '';
+};
+
+const ai = new GoogleGenAI({ apiKey: getApiKey() });
 
 export const generatePlayerAvatar = async (color: string): Promise<string | null> => {
   try {
